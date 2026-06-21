@@ -1,0 +1,41 @@
+#include <DHT.h>
+
+#define DHTPIN 2 // DHT11 data pin
+#define DHTTYPE DHT11
+
+#define FAN_PIN 3 // MOSFET gate pin
+#define PIR_PIN 4 // PIR sensor pin (optional)
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+
+  pinMode(FAN_PIN, OUTPUT);
+  pinMode(PIR_PIN, INPUT);
+}
+
+void loop() {
+  float temp = dht.readTemperature();
+  int motion = digitalRead(PIR_PIN);
+
+  if (isnan(temp)) {
+    Serial.println("Failed to read from DHT sensor!");
+    return;
+  }
+
+  Serial.print("Temperature: ");
+  Serial.print(temp);
+  Serial.print(" °C | Motion: ");
+  Serial.println(motion);
+
+  // If temp > 30 and motion is detected, turn on fan
+  if (temp > 30 && motion == HIGH) {
+    digitalWrite(FAN_PIN, HIGH);
+  } else {
+    digitalWrite(FAN_PIN, LOW);
+  }
+
+  delay(2000); // Adjust delay as needed
+}
