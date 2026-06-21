@@ -15,7 +15,7 @@ This reduces unnecessary power consumption and improves user comfort.
 
 ![Output](output/sf_output.jpg)
 
-![Output](output/SmartFan.mp4)
+* Video in output/SmartFan.mp4
 
 ---
 
